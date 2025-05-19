@@ -121,7 +121,6 @@ document.addEventListener('DOMContentLoaded', function() {
             loadHistory(); // Recargar la vista del historial
         }
     });
-    });
     
     // Función para llamar a APIs externas
     async function callExternalApi(text, apiType, language) {
