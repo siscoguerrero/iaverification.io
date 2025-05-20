@@ -386,10 +386,10 @@ async function analyzeWithAI(text) {
       model: getOpenAIConfig().model,
       messages: [{
         role: "system",
-        content: "Analiza este texto para determinar si fue escrito por IA. Considera:
+        content: `Analiza este texto para determinar si fue escrito por IA. Considera:
         - Estructura demasiado perfecta
         - Coherencia contextual
-        - Patrones de redacción comunes en modelos de lenguaje"
+        - Patrones de redacción comunes en modelos de lenguaje`
       }, {
         role: "user",
         content: text
