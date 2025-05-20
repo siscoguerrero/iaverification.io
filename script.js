@@ -1,5 +1,5 @@
 import { getOpenAIConfig } from './config.js';
-import OpenAI from 'openai';
+import OpenAI from './openai.js';
 
 // Inicialización de OpenAI
 const openai = new OpenAI({

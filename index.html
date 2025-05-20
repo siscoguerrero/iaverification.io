@@ -39,13 +39,18 @@
 <script>
   // Contador de revisiones
   let revisionCount = localStorage.getItem('revisionCount') || 0;
-  document.getElementById('revision-count').textContent = revisionCount;
+  const revisionCountElement = document.getElementById('revision-count');
+  if(revisionCountElement) {
+    revisionCountElement.textContent = revisionCount;
+  }
   
   // Observar cambios en los archivos
   const observer = new MutationObserver(() => {
     revisionCount++;
     localStorage.setItem('revisionCount', revisionCount);
-    document.getElementById('revision-count').textContent = revisionCount;
+    if(revisionCountElement) {
+      revisionCountElement.textContent = revisionCount;
+    }
   });
   
   observer.observe(document.body, {
