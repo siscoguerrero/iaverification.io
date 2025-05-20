@@ -73,7 +73,7 @@ class AnalizadorTexto {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const texto = document.getElementById('texto').value;
     const resultado = document.getElementById('resultado');
     
@@ -114,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const analizador = new AnalizadorTexto(texto);
     analizador.analizarMultidimensional();
     const reporte = analizador.generarReporte();
-    actualizarInterfaz(reporte);
     // Detección de palabras sospechosas de IA
     const palabrasSospechosas = palabras.filter(palabra => {
         const longitud = palabra.length;
@@ -122,32 +121,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const tieneNumeros = /\d/.test(palabra);
         const tieneSimbolos = /[^\w\s]/.test(palabra);
         const esComun = !/\b(?:el|la|los|las|un|una|unos|unas|de|del|al|a|en|y|o|pero|porque|como|que|qué|cuando|donde)\b/i.test(palabra);
-        
-        // Puntuación basada en características sospechosas
         let puntuacion = 0;
         if (longitud > 12) puntuacion += 2;
         if (tieneMayusculas && !palabra[0].match(/[A-Z]/)) puntuacion += 3;
         if (tieneNumeros) puntuacion += 2;
         if (tieneSimbolos) puntuacion += 2;
         if (esComun) puntuacion += 1;
-        
         return puntuacion >= 5;
     });
-    
     // Cálculo de probabilidades mejorado
     const baseHumano = Math.abs(Math.sin(seed) * 100);
-    
-    // Factores de ponderación
     const factorDiversidad = diversidadLexica / 100;
     const factorComplejidad = complejidadSintactica / 100;
     const factorRepeticion = Math.min(repeticionFrases / 5, 1);
-    
-    // Ajuste de probabilidades basado en métricas
     const ajusteHumano = (factorDiversidad * 0.4) + (factorComplejidad * 0.3) - (factorRepeticion * 0.3);
     const probabilidadHumano = Math.min(Math.max(baseHumano * (1 + ajusteHumano), 0), 100);
     const probabilidadIA = 100 - probabilidadHumano;
-    
-    // Comparación con otras herramientas (más consistentes)
     const comparaciones = {
         'ZeroGPT': {
             ia: (probabilidadIA * 0.9 + (Math.random() * 5)).toFixed(2),
@@ -178,12 +167,23 @@ document.addEventListener('DOMContentLoaded', () => {
             humano: (100 - (probabilidadIA * 0.93 + (Math.random() * 4))).toFixed(2)
         }
     };
-    
+
+    // --- INTEGRACIÓN CON OPENAI ---
+    let resultadoOpenAI = '';
+    try {
+        resultadoOpenAI = await analyzeWithAI(texto);
+    } catch (e) {
+        resultadoOpenAI = 'No se pudo obtener análisis de OpenAI.';
+    }
+
     let htmlResultado = `
         <div class="resultado-detallado">
             <h3>Resultados del Análisis</h3>
             ${tieneMarcasAgua ? '<p class="marca-agua">⚠️ Se detectaron posibles marcas de agua en el texto</p>' : ''}
-            
+            <div class="openai-analysis">
+                <h4>Análisis de OpenAI</h4>
+                <div class="openai-content">${resultadoOpenAI ? resultadoOpenAI : 'No disponible'}</div>
+            </div>
             <table class="tabla-resultados">
                 <thead>
                     <tr>
@@ -201,7 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     </tr>
                 </tbody>
             </table>
-            
             <table class="tabla-comparaciones">
                 <thead>
                     <tr>
@@ -225,7 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }).join('')}
                 </tbody>
             </table>
-            
             <table class="tabla-metricas">
                 <thead>
                     <tr>
@@ -266,16 +264,12 @@ document.addEventListener('DOMContentLoaded', () => {
             </table>
         </div>
     `;
-    
     resultado.innerHTML = htmlResultado;
-
     // Guardar en historial
     let historial = JSON.parse(localStorage.getItem('historialAnalisis') || '[]');
     historial.unshift({texto, fecha: new Date().toLocaleString(), resultado: htmlResultado});
     localStorage.setItem('historialAnalisis', JSON.stringify(historial.slice(0,10)));
     mostrarHistorial();
-
-    // Renderizar gráficos (placeholder)
     renderizarGraficos(probabilidadHumano, probabilidadIA, comparaciones);
 });
 
@@ -346,6 +340,8 @@ const openai = new OpenAI({
   apiKey: getOpenAIConfig().apiKey,
   dangerouslyAllowBrowser: true
 });
+
+import OpenAI from 'openai';
 
 async function analyzeWithAI(text) {
   try {

@@ -258,62 +258,55 @@ button:hover {
 
 .palabras-sospechosas {
     color: #d32f2f;
-    font-weight: bold;
     background: #ffeaea;
-    padding: 3px 7px;
     border-radius: 4px;
-    text-decoration: underline wavy;
-    font-size: 1.01rem;
+    padding: 2px 6px;
+    font-weight: bold;
+    box-shadow: 0 0 4px 1px #ffbdbd;
+    transition: background 0.2s, color 0.2s;
 }
-
+.palabras-sospechosas:hover {
+    background: #ffbdbd;
+    color: #b71c1c;
+}
 .marca-agua {
     color: #ff9800;
-    font-weight: 600;
-    font-size: 1.08rem;
-    margin-bottom: 10px;
+    background: #fff3e0;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-weight: bold;
+    box-shadow: 0 0 4px 1px #ffd180;
 }
-
-#retroalimentacion {
-    margin-top: 32px;
-    background: #f6f8fa;
-    border-radius: 10px;
-    padding: 18px 16px 14px 16px;
-    box-shadow: 0 1px 6px rgba(44,62,80,0.04);
-    border: 1px solid #e0e3ea;
+.feedback-visual {
+    background: #e3fcec;
+    color: #256029;
+    border: 1.5px solid #b2dfdb;
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin: 8px 0;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 1px 6px 0 #b2dfdb44;
 }
-
-#retroalimentacion h3 {
-    margin-bottom: 10px;
-    color: #3b5998;
-    font-size: 1.12rem;
+.frase-sospechosa {
+    background: linear-gradient(90deg, #fffde7 0%, #ffe0b2 100%);
+    color: #e65100;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-style: italic;
+    box-shadow: 0 0 3px 1px #ffe0b2;
+    transition: background 0.2s, color 0.2s;
 }
-
-#comentario-feedback {
-    width: 100%;
-    border-radius: 8px;
-    border: 1.2px solid #bfc9d9;
-    padding: 10px;
-    font-size: 1.01rem;
-    font-family: 'Montserrat', Arial, sans-serif;
-    margin-top: 8px;
-    background: #fff;
-    transition: border 0.2s;
+.frase-sospechosa:hover {
+    background: #ffe0b2;
+    color: #bf360c;
 }
-
-#comentario-feedback:focus {
-    outline: none;
-    border: 1.2px solid #5e81f4;
+#historial .item-historial {
+    border-left: 4px solid #4f46e5;
+    margin-bottom: 12px;
+    padding-left: 10px;
+    animation: fadeInUp 0.4s;
 }
-
-.item-historial {
-    background: #f6f8fa;
-    border-radius: 8px;
-    margin-bottom: 18px;
-    padding: 12px 14px 10px 14px;
-    border: 1px solid #e0e3ea;
-    box-shadow: 0 1px 6px rgba(44,62,80,0.04);
-}
-
 @keyframes fadeInUp {
     0% { opacity: 0; transform: translateY(30px); }
     100% { opacity: 1; transform: translateY(0); }
