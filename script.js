@@ -74,6 +74,17 @@ class AnalizadorTexto {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+    document.getElementById('analizar').addEventListener('click', async () => {
+        const texto = document.getElementById('texto').value;
+        const resultado = document.getElementById('resultado');
+        
+        if (!texto) {
+            resultado.innerHTML = '<p class="error">Por favor ingrese un texto para analizar</p>';
+            return;
+        }
+        
+        // Resto del código de análisis...
+    });
     const texto = document.getElementById('texto').value;
     const resultado = document.getElementById('resultado');
     
