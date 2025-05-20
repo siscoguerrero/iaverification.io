@@ -260,6 +260,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <td>Frases repetidas</td>
                         <td>${repeticionFrases}</td>
                     </tr>
+                    <tr>
+                        <td>Análisis de sentimiento</td>
+                        <td>${sentimiento}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -325,13 +329,41 @@ function renderizarGraficos(probHumano, probIA, comparaciones){
 }
 
 // Hooks para análisis de sentimiento y parafraseo (implementación futura)
-function analizarSentimiento(texto){
-    // Placeholder: aquí se puede integrar una librería o API de análisis de sentimiento
+function analizarSentimiento(texto) {
+    // Ejemplo simple: se puede reemplazar por integración con una API real
+    const positivo = /(excelente|bueno|positivo|feliz|maravilloso|fantástico)/i;
+    const negativo = /(malo|terrible|horrible|negativo|triste|pésimo)/i;
+    if (positivo.test(texto)) return 'positivo';
+    if (negativo.test(texto)) return 'negativo';
     return 'neutral';
 }
-function detectarParafraseo(texto){
-    // Placeholder: aquí se puede integrar lógica avanzada o API para detectar parafraseo
-    return false;
+
+function detectarParafraseo(texto) {
+    // Simulación: compara frases con una base de frases típicas de IA
+    const frasesIA = [
+        'como se mencionó anteriormente',
+        'en conclusión',
+        'es importante destacar que',
+        'por otro lado',
+        'en consecuencia',
+        'la inteligencia artificial',
+        'los avances tecnológicos'
+    ];
+    return frasesIA.some(f => texto.toLowerCase().includes(f));
+}
+
+function compararFrasesIA(texto) {
+    // Devuelve las frases típicas de IA encontradas en el texto
+    const frasesIA = [
+        'como se mencionó anteriormente',
+        'en conclusión',
+        'es importante destacar que',
+        'por otro lado',
+        'en consecuencia',
+        'la inteligencia artificial',
+        'los avances tecnológicos'
+    ];
+    return frasesIA.filter(f => texto.toLowerCase().includes(f));
 }
 
 import { getOpenAIConfig } from './config.js';
