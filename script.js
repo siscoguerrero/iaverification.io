@@ -1,3 +1,12 @@
+import { getOpenAIConfig } from './config.js';
+import OpenAI from 'openai';
+
+// Inicialización de OpenAI
+const openai = new OpenAI({
+  apiKey: getOpenAIConfig().apiKey,
+  dangerouslyAllowBrowser: true
+});
+
 class AnalizadorTexto {
   constructor(texto) {
     this.texto = texto.toLowerCase();
@@ -129,7 +138,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (esComun) puntuacion += 1;
         return puntuacion >= 5;
     });
+    
+    // Análisis de sentimiento
+    const sentimiento = analizarSentimiento(texto);
+    
     // Cálculo de probabilidades mejorado
+    const seed = Date.now();
     const baseHumano = Math.abs(Math.sin(seed) * 100);
     const factorDiversidad = diversidadLexica / 100;
     const factorComplejidad = complejidadSintactica / 100;
@@ -366,19 +380,9 @@ function compararFrasesIA(texto) {
     return frasesIA.filter(f => texto.toLowerCase().includes(f));
 }
 
-import { getOpenAIConfig } from './config.js';
-
-const openai = new OpenAI({
-  apiKey: getOpenAIConfig().apiKey,
-  dangerouslyAllowBrowser: true
-});
-
-import OpenAI from 'openai';
-
 async function analyzeWithAI(text) {
   try {
-    const openai = new OpenAI({ apiKey: import.meta.env.VITE_OPENAI_KEY });
-const completion = await openai.chat.completions.create({
+    const completion = await openai.chat.completions.create({
       model: getOpenAIConfig().model,
       messages: [{
         role: "system",
