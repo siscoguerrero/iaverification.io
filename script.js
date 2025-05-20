@@ -74,6 +74,10 @@ class AnalizadorTexto {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Contador de revisiones
+    let contadorRevisiones = parseInt(localStorage.getItem('contadorRevisiones') || '0');
+    document.getElementById('contador-revisiones').textContent = contadorRevisiones;
+    
     document.getElementById('analizar').addEventListener('click', async () => {
         const texto = document.getElementById('texto').value;
         const resultado = document.getElementById('resultado');
@@ -82,6 +86,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             resultado.innerHTML = '<p class="error">Por favor ingrese un texto para analizar</p>';
             return;
         }
+        
+        // Incrementar contador
+        contadorRevisiones++;
+        document.getElementById('contador-revisiones').textContent = contadorRevisiones;
+        localStorage.setItem('contadorRevisiones', contadorRevisiones);
         
         // Resto del código de análisis...
     });
