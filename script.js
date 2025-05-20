@@ -1,12 +1,3 @@
-import { getOpenAIConfig } from './config.js';
-import OpenAI from './openai.js';
-
-// Inicialización de OpenAI
-const openai = new OpenAI({
-  apiKey: getOpenAIConfig().apiKey,
-  dangerouslyAllowBrowser: true
-});
-
 class AnalizadorTexto {
   constructor(texto) {
     this.texto = texto.toLowerCase();
@@ -182,22 +173,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    // --- INTEGRACIÓN CON OPENAI ---
-    let resultadoOpenAI = '';
-    try {
-        resultadoOpenAI = await analyzeWithAI(texto);
-    } catch (e) {
-        resultadoOpenAI = 'No se pudo obtener análisis de OpenAI.';
-    }
+
 
     let htmlResultado = `
         <div class="resultado-detallado">
             <h3>Resultados del Análisis</h3>
             ${tieneMarcasAgua ? '<p class="marca-agua">⚠️ Se detectaron posibles marcas de agua en el texto</p>' : ''}
-            <div class="openai-analysis">
-                <h4>Análisis de OpenAI</h4>
-                <div class="openai-content">${resultadoOpenAI ? resultadoOpenAI : 'No disponible'}</div>
-            </div>
+
             <table class="tabla-resultados">
                 <thead>
                     <tr>
@@ -380,28 +362,7 @@ function compararFrasesIA(texto) {
     return frasesIA.filter(f => texto.toLowerCase().includes(f));
 }
 
-async function analyzeWithAI(text) {
-  try {
-    const completion = await openai.chat.completions.create({
-      model: getOpenAIConfig().model,
-      messages: [{
-        role: "system",
-        content: `Analiza este texto para determinar si fue escrito por IA. Considera:
-        - Estructura demasiado perfecta
-        - Coherencia contextual
-        - Patrones de redacción comunes en modelos de lenguaje`
-      }, {
-        role: "user",
-        content: text
-      }]
-    });
-    
-    return completion.choices[0].message.content;
-  } catch (error) {
-    console.error('Error en análisis de OpenAI:', error);
-    return null;
-  }
-}
+
 
 async function analyzeText() {
   // ... existing code ...
