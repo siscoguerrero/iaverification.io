@@ -36,5 +36,24 @@
         </div>
     </div>
     <script src="script.js" type="module"></script>
+<script>
+  // Contador de revisiones
+  let revisionCount = localStorage.getItem('revisionCount') || 0;
+  document.getElementById('revision-count').textContent = revisionCount;
+  
+  // Observar cambios en los archivos
+  const observer = new MutationObserver(() => {
+    revisionCount++;
+    localStorage.setItem('revisionCount', revisionCount);
+    document.getElementById('revision-count').textContent = revisionCount;
+  });
+  
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    characterData: true
+  });
+</script>
 </body>
 </html>
