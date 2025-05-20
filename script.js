@@ -26,5 +26,11 @@ function analyzeText() {
     document.getElementById('counter').textContent = `Revisiones realizadas: ${reviewCount}`;
 }
 
-// Event listener para el botón
-document.getElementById('analyzeBtn').addEventListener('click', analyzeText);
+// Asegurar que el DOM esté cargado antes de manipular elementos
+document.addEventListener('DOMContentLoaded', function() {
+    // Event listener para el botón
+    document.getElementById('analyzeBtn').addEventListener('click', analyzeText);
+    
+    // Inicializar contador
+    document.getElementById('counter').textContent = `Revisiones realizadas: ${reviewCount}`;
+});
