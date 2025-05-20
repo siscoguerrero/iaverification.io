@@ -12,9 +12,18 @@
         <p>Ingrese el texto que desea analizar:</p>
         <textarea id="texto" rows="10" cols="50" placeholder="Ingrese el texto a analizar..."></textarea>
         <button id="analizar">Analizar</button>
+        <button id="exportar-pdf">Exportar PDF</button>
         <div id="resultado"></div>
         <div id="metricas"></div>
+        <div id="graficos"></div>
+        <div id="historial"></div>
+        <div id="retroalimentacion">
+            <h3>¿El resultado fue correcto?</h3>
+            <button id="feedback-positivo">👍 Sí</button>
+            <button id="feedback-negativo">👎 No</button>
+            <textarea id="comentario-feedback" placeholder="Agrega un comentario opcional..."></textarea>
+        </div>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js" type="module"></script>
 </body>
 </html>
